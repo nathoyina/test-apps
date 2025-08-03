@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './ChineseLearningApp.css';
 
 // Mock data - in a real app, this would come from the backend
@@ -130,7 +130,7 @@ function ChineseLearningApp() {
   const [isLoading, setIsLoading] = useState(false);
 
   // Get a random word that hasn't been used recently
-  const getRandomWord = () => {
+  const getRandomWord = useCallback(() => {
     const availableWords = VOCABULARY_DATA.filter(word => 
       !usedWords.includes(word.chinese)
     );
@@ -141,17 +141,17 @@ function ChineseLearningApp() {
     }
     
     return availableWords[Math.floor(Math.random() * availableWords.length)];
-  };
+  }, [usedWords]);
 
   // Start a new session
-  const startNewSession = () => {
+  const startNewSession = useCallback(() => {
     const word = getRandomWord();
     setCurrentWord(word);
     setUserSentence('');
     setFeedback(null);
     setShowFeedback(false);
     setIsLoading(false);
-  };
+  }, [getRandomWord]);
 
   // Submit sentence and get feedback
   const submitSentence = () => {
@@ -219,7 +219,7 @@ function ChineseLearningApp() {
   // Start first session on component mount
   useEffect(() => {
     startNewSession();
-  }, []);
+  }, [startNewSession]);
 
   return (
     <div className="chinese-learning-app">
