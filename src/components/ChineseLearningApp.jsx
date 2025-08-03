@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './chinese_learning_frontend.css';
+import './ChineseLearningApp.css';
 
 // Mock data - in a real app, this would come from the backend
 const VOCABULARY_DATA = [
